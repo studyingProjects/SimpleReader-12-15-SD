@@ -30,12 +30,6 @@ class UIBorderedTextField: UITextField {
 
         setupPaddings()
     }
-    // MARK: - LyfeCycle
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        frame.size.height = Sizes.Small.height
-    }
     // MARK: - Setup View
     private func setupView() {
         contentVerticalAlignment = .center

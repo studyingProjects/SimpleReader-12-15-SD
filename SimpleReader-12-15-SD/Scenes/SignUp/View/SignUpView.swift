@@ -185,7 +185,7 @@ private extension SignUpView {
             ),
             nameLabel.topAnchor.constraint(
                 equalTo: enterDetailsLabel.bottomAnchor,
-                constant: Sizes.Large.padding
+                constant: Sizes.Medium.padding
             ),
             // nameTextField
             nameTextField.leadingAnchor.constraint(
@@ -199,7 +199,8 @@ private extension SignUpView {
             nameTextField.topAnchor.constraint(
                 equalTo: nameLabel.bottomAnchor,
                 constant: Sizes.Small.padding
-            )
+            ),
+            nameTextField.heightAnchor.constraint(equalToConstant: Sizes.Small.height)
         ])
     }
     func setupEmailConstraints() {
@@ -215,7 +216,7 @@ private extension SignUpView {
             ),
             emailLabel.topAnchor.constraint(
                 equalTo: nameTextField.bottomAnchor,
-                constant: Sizes.Large.padding
+                constant: Sizes.Medium.padding
             ),
             // emailTextField
             emailTextField.leadingAnchor.constraint(
@@ -229,7 +230,8 @@ private extension SignUpView {
             emailTextField.topAnchor.constraint(
                 equalTo: emailLabel.bottomAnchor,
                 constant: Sizes.Small.padding
-            )
+            ),
+            emailTextField.heightAnchor.constraint(equalToConstant: Sizes.Small.height)
         ])
     }
     func setupPasswordConstraints() {
@@ -245,7 +247,7 @@ private extension SignUpView {
             ),
             passwordLabel.topAnchor.constraint(
                 equalTo: emailTextField.bottomAnchor,
-                constant: Sizes.Large.padding
+                constant: Sizes.Medium.padding
             ),
             // passwordTextField
             passwordTextField.leadingAnchor.constraint(
@@ -259,7 +261,8 @@ private extension SignUpView {
             passwordTextField.topAnchor.constraint(
                 equalTo: passwordLabel.bottomAnchor,
                 constant: Sizes.Small.padding
-            )
+            ),
+            passwordTextField.heightAnchor.constraint(equalToConstant: Sizes.Small.height)
         ])
     }
     // MARK: - Footer
@@ -305,9 +308,9 @@ private extension SignUpView {
             ),
             signUpButton.topAnchor.constraint(
                 equalTo: termsPrivacyLabel.bottomAnchor,
-                constant: Sizes.Large.padding
+                constant: Sizes.Medium.padding
             ),
-            signUpButton.heightAnchor.constraint(equalToConstant: Sizes.Small.height),
+            signUpButton.heightAnchor.constraint(equalToConstant: Sizes.Medium.height),
             // haveAccountLabel
             haveAccountLabel.leadingAnchor.constraint(
                 equalTo: layoutMarginsGuide.leadingAnchor,
@@ -332,9 +335,9 @@ private extension SignUpView {
             ),
             loginButton.topAnchor.constraint(
                 equalTo: haveAccountLabel.bottomAnchor,
-                constant: Sizes.Large.padding
+                constant: Sizes.Medium.padding
             ),
-            loginButton.heightAnchor.constraint(equalToConstant: Sizes.Small.height)
+            loginButton.heightAnchor.constraint(equalToConstant: Sizes.Medium.height)
         ])
     }
 }
