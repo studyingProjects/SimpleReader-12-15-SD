@@ -19,14 +19,14 @@ extension UIColor {
 extension UIColor {
     // MARK: - Background Colors
     static var primarySystemBackground: UIColor {
-        UIColor.systemGray5
+        UIColor.systemBackground
     }
     // MARK: - Border Colors {
     static var selectedBorder: UIColor {
         UIColor.tintColor
     }
     static var unselectedBorder: UIColor {
-        UIColor.secondaryLabel
+        UIColor.systemGray3
     }
     // MARK: - Button Colors
     static var tintButton: UIColor {

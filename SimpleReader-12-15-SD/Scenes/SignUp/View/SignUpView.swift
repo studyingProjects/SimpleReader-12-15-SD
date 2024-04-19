@@ -17,7 +17,7 @@ class SignUpView: UIView {
 
     private lazy var enterDetailsLabel = UILabel(
         text: "Please enter your details",
-        font: .appMedium,
+        font: .appMediumBold,
         textColor: .secondaryLabel
     )
 
@@ -31,6 +31,63 @@ class SignUpView: UIView {
     private lazy var nameTextField = UIBorderedTextField(
         placeholder: "Name",
         font: .appMediumBold
+    )
+
+    private lazy var emailLabel = UILabel(
+        text: "Email",
+        font: .appMediumBold,
+        textColor: .darkText
+    )
+
+    private lazy var emailTextField = UIBorderedTextField(
+        placeholder: "Example@mail.com",
+        font: .appMediumBold
+    )
+
+    private lazy var passwordLabel = UILabel(
+        text: "Password",
+        font: .appMediumBold,
+        textColor: .darkText
+    )
+
+    private lazy var passwordTextField = UIBorderedTextField(
+        placeholder: "At least 8 characters",
+        font: .appMediumBold
+    )
+    // MARK: - Footer properties
+    private lazy var termsSwitch: UISwitch = {
+        let switcher = UISwitch()
+        switcher.preferredStyle = .checkbox
+        return switcher
+    }()
+
+    private lazy var termsPrivacyLabel = UILabel(
+        text: "I agree with Terms and Privacy",
+        font: UIFont.appMediumBold,
+        textColor: .secondaryLabel
+    )
+
+    private lazy var signUpButton = UIButton(
+        title: "Sign up",
+        font: UIFont.appMediumBold,
+        titleColor: UIColor.white,
+        backGroundColor: UIColor.tintButton,
+        cornerRadius: Sizes.Medium.cornerRadius
+    )
+
+    private lazy var haveAccountLabel = UILabel(
+        text: "Already have an account?",
+        font: UIFont.appMediumBold,
+        textColor: .secondaryLabel,
+        textAlignment: .center
+    )
+
+    private lazy var loginButton = UIButton(
+        title: "Log in",
+        font: UIFont.appMediumBold,
+        titleColor: UIColor.white,
+        backGroundColor: UIColor.greenButton,
+        cornerRadius: Sizes.Medium.cornerRadius
     )
     // MARK: - Init
     override init(frame: CGRect) {
@@ -50,7 +107,16 @@ class SignUpView: UIView {
             signUpLabel,
             enterDetailsLabel,
             nameLabel,
-            nameTextField
+            nameTextField,
+            emailLabel,
+            emailTextField,
+            passwordLabel,
+            passwordTextField,
+            termsSwitch,
+            termsPrivacyLabel,
+            signUpButton,
+            haveAccountLabel,
+            loginButton
         )
 
         setupSubViews()
@@ -59,6 +125,8 @@ class SignUpView: UIView {
     func setupSubViews() {
     }
 }
+// MARK: - UITextFieldDelegate
+extension SignUpView: UITextFieldDelegate {}
 // MARK: - Constraints
 private extension SignUpView {
     func setupConstraints() {
@@ -99,6 +167,12 @@ private extension SignUpView {
     }
     // MARK: - Body
     func setupBody() {
+        setupNameConstraints()
+        setupEmailConstraints()
+        setupPasswordConstraints()
+    }
+
+    func setupNameConstraints() {
         NSLayoutConstraint.activate([
             // nameLabel
             nameLabel.leadingAnchor.constraint(
@@ -128,7 +202,139 @@ private extension SignUpView {
             )
         ])
     }
+    func setupEmailConstraints() {
+        NSLayoutConstraint.activate([
+            // emailLabel
+            emailLabel.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            emailLabel.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            emailLabel.topAnchor.constraint(
+                equalTo: nameTextField.bottomAnchor,
+                constant: Sizes.Large.padding
+            ),
+            // emailTextField
+            emailTextField.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            emailTextField.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            emailTextField.topAnchor.constraint(
+                equalTo: emailLabel.bottomAnchor,
+                constant: Sizes.Small.padding
+            )
+        ])
+    }
+    func setupPasswordConstraints() {
+        NSLayoutConstraint.activate([
+            // passwordLabel
+            passwordLabel.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            passwordLabel.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            passwordLabel.topAnchor.constraint(
+                equalTo: emailTextField.bottomAnchor,
+                constant: Sizes.Large.padding
+            ),
+            // passwordTextField
+            passwordTextField.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            passwordTextField.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            passwordTextField.topAnchor.constraint(
+                equalTo: passwordLabel.bottomAnchor,
+                constant: Sizes.Small.padding
+            )
+        ])
+    }
     // MARK: - Footer
     func setupFooter() {
+        setupTermsPrivacyConstraints()
+        setupFooterButtons()
+    }
+
+    func setupTermsPrivacyConstraints() {
+        NSLayoutConstraint.activate([
+            // termsSwitch
+            termsSwitch.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            termsSwitch.topAnchor.constraint(
+                equalTo: passwordTextField.bottomAnchor,
+                constant: Sizes.XLarge.padding
+            ),
+            // termsPrivacyLabel
+            termsPrivacyLabel.leadingAnchor.constraint(
+                equalTo: termsSwitch.trailingAnchor,
+                constant: Sizes.Small.padding
+            ),
+            termsPrivacyLabel.centerYAnchor.constraint(equalTo: termsSwitch.centerYAnchor),
+            termsPrivacyLabel.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            )
+        ])
+    }
+
+    func setupFooterButtons() {
+        NSLayoutConstraint.activate([
+            // signUpButton
+            signUpButton.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            signUpButton.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            signUpButton.topAnchor.constraint(
+                equalTo: termsPrivacyLabel.bottomAnchor,
+                constant: Sizes.Large.padding
+            ),
+            signUpButton.heightAnchor.constraint(equalToConstant: Sizes.Small.height),
+            // haveAccountLabel
+            haveAccountLabel.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            haveAccountLabel.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            haveAccountLabel.topAnchor.constraint(
+                equalTo: signUpButton.bottomAnchor,
+                constant: Sizes.Large.padding
+            ),
+            // loginButton
+            loginButton.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor,
+                constant: Sizes.Medium.padding
+            ),
+            loginButton.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor,
+                constant: -Sizes.Medium.padding
+            ),
+            loginButton.topAnchor.constraint(
+                equalTo: haveAccountLabel.bottomAnchor,
+                constant: Sizes.Large.padding
+            ),
+            loginButton.heightAnchor.constraint(equalToConstant: Sizes.Small.height)
+        ])
     }
 }

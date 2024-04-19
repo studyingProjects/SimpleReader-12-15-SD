@@ -41,8 +41,8 @@ class UIBorderedTextField: UITextField {
         contentVerticalAlignment = .center
         // layer
         layer.borderColor = UIColor.unselectedBorder.cgColor
-        layer.borderWidth = Sizes.Medium.borderWidth
-        layer.cornerRadius = Sizes.Small.cornerRadius
+        layer.borderWidth = Sizes.Small.borderWidth
+        layer.cornerRadius = Sizes.Medium.cornerRadius
     }
     // MARK: - Helper methods
     func setupPaddings() {

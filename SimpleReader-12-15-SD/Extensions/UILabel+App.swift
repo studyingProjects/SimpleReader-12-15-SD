@@ -7,11 +7,17 @@
 import UIKit
 
 extension UILabel {
-    convenience init(text: String?, font: UIFont?, textColor: UIColor) {
+    convenience init(
+        text: String?,
+        font: UIFont?,
+        textColor: UIColor,
+        textAlignment: NSTextAlignment = .natural
+    ) {
         self.init()
         self.text = text
         self.font = font
         self.textColor = textColor
+        self.textAlignment = textAlignment
         self.numberOfLines = 0
         self.adjustsFontSizeToFitWidth = true
         self.minimumScaleFactor = 0.5
