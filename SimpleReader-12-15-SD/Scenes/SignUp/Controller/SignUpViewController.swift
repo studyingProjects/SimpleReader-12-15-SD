@@ -4,16 +4,15 @@
 //
 //  Created by Andrei Shpartou on 18/04/2024.
 //
-
 import UIKit
 
 class SignUpViewController: UIViewController {
-weak var coordinator: CoordinatorProtocol?
+    weak var coordinator: CoordinatorProtocol?
+    private var signUpView: UIView?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = .appBackground
+    override func loadView() {
+        signUpView = SignUpView(frame: .zero)
+        view = signUpView
     }
 }
 

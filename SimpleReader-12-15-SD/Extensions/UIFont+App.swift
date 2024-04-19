@@ -7,13 +7,30 @@
 import UIKit
 
 extension UIFont {
-    static let appSmall = UIFont.systemFont(ofSize: 12)
-    static let appMedium = UIFont.systemFont(ofSize: 16)
-    static let appLarge = UIFont.systemFont(ofSize: 20)
-    static let appXLarge = UIFont.systemFont(ofSize: 24)
-
-    static let appSmallBold = UIFont.systemFont(ofSize: 12, weight: .bold)
-    static let appMediumBold = UIFont.systemFont(ofSize: 16, weight: .bold)
-    static let appLargeBold = UIFont.systemFont(ofSize: 20, weight: .bold)
-    static let appXLargeBold = UIFont.systemFont(ofSize: 24, weight: .bold)
+    // Plan
+    static var appSmall: UIFont {
+        UIFont.systemFont(ofSize: 12)
+    }
+    static var appMedium: UIFont {
+        UIFont.systemFont(ofSize: 16)
+    }
+    static var appLarge: UIFont {
+        UIFont.systemFont(ofSize: 20)
+    }
+    static var appXLarge: UIFont {
+        UIFont.systemFont(ofSize: 24)
+    }
+    // Bold
+    static var appSmallBold: UIFont {
+        UIFont.systemFont(ofSize: 12, weight: .bold)
+    }
+    static var appMediumBold: UIFont {
+        UIFont.systemFont(ofSize: 16, weight: .bold)
+    }
+    static var appLargeBold: UIFont {
+        UIFont.systemFont(ofSize: 20, weight: .bold)
+    }
+    static var appXLargeBold: UIFont {
+        UIFont.systemFont(ofSize: 24, weight: .bold)
+    }
 }
