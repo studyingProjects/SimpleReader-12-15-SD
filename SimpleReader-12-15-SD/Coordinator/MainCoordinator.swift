@@ -11,9 +11,11 @@ protocol CoordinatorProtocol: AnyObject {
     var navigationController: UINavigationController { get set }
 
     func start()
+    func goToLogin()
 }
 
 class MainCoordinator: CoordinatorProtocol {
+
     var navigationController: UINavigationController
 
     init(navigationController: UINavigationController) {
@@ -22,6 +24,12 @@ class MainCoordinator: CoordinatorProtocol {
 
     func start() {
         let viewController = SignUpViewController()
+        viewController.coordinator = self
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func goToLogin() {
+        let viewController = LoginViewController()
         viewController.coordinator = self
         navigationController.pushViewController(viewController, animated: true)
     }
