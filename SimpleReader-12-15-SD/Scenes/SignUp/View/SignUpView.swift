@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol SignUpViewDelegate: AnyObject {
+    func goToLogin()
+}
+
 class SignUpView: UIView {
+    weak var delegate: SignUpViewDelegate?
+
     // MARK: - View Model Properties
     private var arrayOfTextFields = [UITextField]()
 
@@ -146,12 +152,19 @@ class SignUpView: UIView {
         nameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
+
+        loginButton.addTarget(self, action: #selector(goToLogin), for: .touchUpInside)
     }
 
     // MARK: - Action methods
     @objc
     private func viewWasTapped() {
         endEditing(true)
+    }
+
+    @objc
+    private func goToLogin() {
+        delegate?.goToLogin()
     }
 }
 // MARK: - UITextFieldDelegate
