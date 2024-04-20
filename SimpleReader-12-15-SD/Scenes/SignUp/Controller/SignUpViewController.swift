@@ -11,7 +11,16 @@ class SignUpViewController: UIViewController {
     private var signUpView: UIView?
 
     override func loadView() {
-        signUpView = SignUpView(frame: .zero)
+        let rootView = SignUpView(frame: .zero)
+        rootView.delegate = self
+
+        signUpView = rootView
         view = signUpView
+    }
+}
+
+extension SignUpViewController: SignUpViewDelegate {
+    func goToLogin() {
+        coordinator?.goToLogin()
     }
 }

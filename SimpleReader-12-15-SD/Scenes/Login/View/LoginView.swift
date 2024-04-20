@@ -8,6 +8,9 @@
 import UIKit
 
 class LoginView: UIView {
+    // MARK: - View Model Properties
+    private var arrayOfTextFields = [UITextField]()
+
     // MARK: - Header Properties
     private lazy var welcomeImageView: UIImageView = {
         let image = UIImage(named: "Greeting")
@@ -24,6 +27,7 @@ class LoginView: UIView {
         textColor: .darkText,
         textAlignment: .center
     )
+
     // MARK: - Body Properties
     private lazy var logIntoAccountLabel = UILabel(
         text: "Please Log into existing account",
@@ -39,7 +43,8 @@ class LoginView: UIView {
 
     private lazy var emailTextField = UIBorderedTextField(
         placeholder: "Your Email",
-        font: .appMediumBold
+        font: .appMediumBold,
+        keyboardType: .emailAddress
     )
 
     private lazy var passwordLabel = UILabel(
@@ -48,10 +53,11 @@ class LoginView: UIView {
         textColor: .darkText
     )
 
-    private lazy var passwordTextField = UIBorderedTextField(
+    private lazy var passwordTextField = UIPasswordTextField(
         placeholder: "Your Password",
         font: .appMediumBold
     )
+
     // MARK: - Footer Properties
     private lazy var loginButton = UIButton(
         title: "Log in",
@@ -72,9 +78,20 @@ class LoginView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: - SetupView
     private func setupView() {
         backgroundColor = .primarySystemBackground
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewWasTaped))
+        addGestureRecognizer(tapGestureRecognizer)
+
+        // Setup view model
+        arrayOfTextFields = [emailTextField, passwordTextField]
+        arrayOfTextFields.enumerated().forEach { index, textField in
+            textField.tag = index
+        }
+
+        // Setup subviews
         addSubviews(
             welcomeImageView,
             welcomeLabel,
@@ -85,8 +102,46 @@ class LoginView: UIView {
             passwordTextField,
             loginButton
         )
+
+        setupSubviews()
+    }
+
+    private func setupSubviews() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+
+    // MARK: - Action methods
+    @objc
+    private func viewWasTaped() {
+        endEditing(true)
     }
 }
+
+// MARK: - UITextFieldDelegate
+extension LoginView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Highlight selected TextField
+        textField.layer.borderColor = UIColor.selectedBorder.cgColor
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Deselect TextField with default color
+        textField.layer.borderColor = UIColor.unselectedBorder.cgColor
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Select the next TextField if exists
+        if let nextTextField = viewWithTag(textField.tag + 1) {
+            nextTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+
+        return true
+    }
+}
+
 // MARK: - Constraints
 private extension LoginView {
     func setupConstraints() {
