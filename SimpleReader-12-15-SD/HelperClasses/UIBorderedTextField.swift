@@ -21,12 +21,19 @@ class UIBorderedTextField: UITextField {
 
     convenience init(
         placeholder: String?,
-        font: UIFont?
+        font: UIFont?,
+        keyboardType: UIKeyboardType = .default
     ) {
         self.init()
 
         self.placeholder = placeholder
         self.font = font
+        self.keyboardType = keyboardType
+
+        self.autocapitalizationType = .none
+        self.returnKeyType = .done
+        self.keyboardAppearance = .dark
+        self.autocorrectionType = .no
 
         setupPaddings()
     }

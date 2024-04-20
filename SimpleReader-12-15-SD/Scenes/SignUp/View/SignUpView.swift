@@ -8,6 +8,9 @@
 import UIKit
 
 class SignUpView: UIView {
+    // MARK: - View Model Properties
+    private var arrayOfTextFields = [UITextField]()
+
     // MARK: - Header Properties
     private lazy var signUpLabel = UILabel(
         text: "Sign Up",
@@ -30,7 +33,8 @@ class SignUpView: UIView {
 
     private lazy var nameTextField = UIBorderedTextField(
         placeholder: "Name",
-        font: .appMediumBold
+        font: .appMediumBold,
+        keyboardType: .namePhonePad
     )
 
     private lazy var emailLabel = UILabel(
@@ -41,7 +45,8 @@ class SignUpView: UIView {
 
     private lazy var emailTextField = UIBorderedTextField(
         placeholder: "Example@mail.com",
-        font: .appMediumBold
+        font: .appMediumBold,
+        keyboardType: .emailAddress
     )
 
     private lazy var passwordLabel = UILabel(
@@ -50,10 +55,11 @@ class SignUpView: UIView {
         textColor: .darkText
     )
 
-    private lazy var passwordTextField = UIBorderedTextField(
+    private lazy var passwordTextField = UIPasswordTextField(
         placeholder: "At least 8 characters",
         font: .appMediumBold
     )
+
     // MARK: - Footer properties
     private lazy var termsSwitch: UISwitch = {
         let switcher = UISwitch()
@@ -89,6 +95,7 @@ class SignUpView: UIView {
         backGroundColor: UIColor.greenButton,
         cornerRadius: Sizes.Medium.cornerRadius
     )
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -100,9 +107,22 @@ class SignUpView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: - Setup View
     func setupView() {
+        // Setup view
         backgroundColor = .primarySystemBackground
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewWasTapped))
+        addGestureRecognizer(tapGestureRecognizer)
+
+        // Setup view model
+        arrayOfTextFields = [nameTextField, emailTextField, passwordTextField]
+        arrayOfTextFields.enumerated().forEach { index, textField in
+            textField.tag = index
+        }
+
+        // Setup subviews
         addSubviews(
             signUpLabel,
             enterDetailsLabel,
@@ -123,10 +143,41 @@ class SignUpView: UIView {
     }
 
     func setupSubViews() {
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+    }
+
+    // MARK: - Action methods
+    @objc
+    private func viewWasTapped() {
+        endEditing(true)
     }
 }
 // MARK: - UITextFieldDelegate
-extension SignUpView: UITextFieldDelegate {}
+extension SignUpView: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        // Highlight selected TextField
+        textField.layer.borderColor = UIColor.selectedBorder.cgColor
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Deselect TextField with default color
+        textField.layer.borderColor = UIColor.unselectedBorder.cgColor
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // Select the next TextField if exists
+        if let nextTextField = viewWithTag(textField.tag + 1) {
+            nextTextField.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+
+        return true
+    }
+}
+
 // MARK: - Constraints
 private extension SignUpView {
     func setupConstraints() {
@@ -134,6 +185,7 @@ private extension SignUpView {
         setupBody()
         setupFooter()
     }
+
     // MARK: - Header
     func setupHeader() {
         NSLayoutConstraint.activate([

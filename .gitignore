@@ -181,7 +181,7 @@ xcuserdata
 .swiftlint.yml
 
 ### SwiftGen ###
-.swiftgen.yml
+swiftgen.yml
 
 ### macOS ###
 # General
