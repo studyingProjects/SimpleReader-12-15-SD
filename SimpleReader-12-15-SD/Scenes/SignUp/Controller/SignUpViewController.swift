@@ -10,6 +10,13 @@ class SignUpViewController: UIViewController {
     weak var coordinator: CoordinatorProtocol?
     private var signUpView: UIView?
 
+    // MARK: - Deinit
+    deinit {
+        // Remove notification observers
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // MARK: - Lifecycle
     override func loadView() {
         let rootView = SignUpView(frame: .zero)
         rootView.delegate = self
@@ -17,10 +24,57 @@ class SignUpViewController: UIViewController {
         signUpView = rootView
         view = signUpView
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Setup notification observers
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
 }
 
+// MARK: - Action methods
+private extension SignUpViewController {
+    @objc
+    private func keyboardWillShow(notification: Notification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+
+        if view.frame.origin.y == 0 {
+            view.frame.origin.y -= keyboardSize.height
+        }
+    }
+
+    @objc
+    private func keyboardWillHide(notification: Notification) {
+        if view.frame.origin.y != 0 {
+            view.frame.origin.y = 0
+        }
+    }
+}
+
+// MARK: - SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate {
     func goToLogin() {
         coordinator?.goToLogin()
     }
+}
+
+// MARK: - Helper Methods
+private extension SignUpViewController {
+    
 }
