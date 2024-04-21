@@ -40,8 +40,10 @@ class LoginViewController: UIViewController {
             object: nil
         )
     }
+}
 
-    // MARK: - Action methods
+// MARK: - Action methods
+private extension LoginViewController {
     @objc
     private func keyboardWillShow(notification: Notification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -57,7 +59,9 @@ class LoginViewController: UIViewController {
 
         if view.frame.origin.y == 0,
            positionYForChecking > keyboardOrigin.y {
-            view.frame.origin.y -= keyboardSize.height
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.frame.origin.y -= keyboardSize.height
+            })
         }
     }
 

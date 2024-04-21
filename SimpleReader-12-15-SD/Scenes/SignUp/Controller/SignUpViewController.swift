@@ -62,7 +62,9 @@ private extension SignUpViewController {
 
         if view.frame.origin.y == 0,
            positionYForChecking > keyboardOrigin.y {
-            view.frame.origin.y -= keyboardSize.height
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.frame.origin.y -= keyboardSize.height
+            })
         }
     }
 
