@@ -10,15 +10,15 @@ import UIKit
 extension UIView {
 
     var textFieldsInView: [UITextField] {
-        return subviews
-            .filter ({ !($0 is UITextField) })
-            .reduce (( subviews.compactMap { $0 as? UITextField }), { summ, current in
+        let filteredSubviews = subviews.filter { !($0 is UITextField) }
+
+        return filteredSubviews.reduce(subviews.compactMap { $0 as? UITextField }, { summ, current in
                 return summ + current.textFieldsInView
             })
     }
 
     var selectedTextField: UITextField? {
-        return textFieldsInView.filter { $0.isFirstResponder }.first
+        return textFieldsInView.first(where: { $0.isFirstResponder })
     }
 
     func addSubviews(_ views: UIView...) {
@@ -27,5 +27,4 @@ extension UIView {
             self.addSubview($0)
         }
     }
-    
 }

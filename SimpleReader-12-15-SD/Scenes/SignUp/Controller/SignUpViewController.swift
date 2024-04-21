@@ -43,7 +43,6 @@ class SignUpViewController: UIViewController {
             object: nil
         )
     }
-    
 }
 
 // MARK: - Action methods
@@ -53,8 +52,16 @@ private extension SignUpViewController {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
+        // Calculating y position where keyboard overlap view
+        guard let textField = view.selectedTextField else {
+            return
+        }
+        let positionYForChecking = textField.frame.origin.y + textField.frame.height + Sizes.Small.height
+        // Convert from UIWindows coordinates to View coordinates
+        let keyboardOrigin = view.convert(keyboardSize.origin, from: view.window)
 
-        if view.frame.origin.y == 0 {
+        if view.frame.origin.y == 0,
+           positionYForChecking > keyboardOrigin.y {
             view.frame.origin.y -= keyboardSize.height
         }
     }
@@ -72,9 +79,4 @@ extension SignUpViewController: SignUpViewDelegate {
     func goToLogin() {
         coordinator?.goToLogin()
     }
-}
-
-// MARK: - Helper Methods
-private extension SignUpViewController {
-    
 }
