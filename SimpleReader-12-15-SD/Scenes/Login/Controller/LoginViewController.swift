@@ -7,24 +7,28 @@
 
 import UIKit
 
+protocol LoginViewControllerDelegate: AnyObject {
+    func adjustScrollInset(with height: CGFloat)
+    func adjustScrollOffset(with height: CGFloat)
+    // func getCurrentOffset() -> CGFloat
+}
+
 class LoginViewController: UIViewController {
     weak var coordinator: CoordinatorProtocol?
-    private var loginView: UIView?
+    weak var delegate: LoginViewControllerDelegate?
 
-    // MARK: - Deinit
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+    private var loginView: UIView?
 
     // MARK: - Lyfecycle
     override func loadView() {
         loginView = LoginView()
         view = loginView
+
+        delegate = loginView as? LoginViewControllerDelegate
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Setup notification observers
         NotificationCenter.default.addObserver(
             self,
@@ -39,11 +43,35 @@ class LoginViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+//        // custom notification
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(executeCustomNotification),
+//            name: .myCustomErrorNotification,
+//            object: loginView
+//        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 }
 
 // MARK: - Action methods
 private extension LoginViewController {
+
     @objc
     private func keyboardWillShow(notification: Notification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -53,24 +81,31 @@ private extension LoginViewController {
         guard let textField = view.selectedTextField else {
             return
         }
-        let positionYForChecking = textField.frame.origin.y + textField.frame.height + Sizes.Small.height
+        // Convert from Subviews coordinates to View coordinates
+        let textFieldOrigin = view.convert(textField.frame.origin, from: textField.superview)
+        let positionYForChecking = textFieldOrigin.y + textField.frame.height + Sizes.Small.padding
         // Convert from UIWindows coordinates to View coordinates
         let keyboardOrigin = view.convert(keyboardSize.origin, from: view.window)
 
-        if view.frame.origin.y == 0,
-           positionYForChecking > keyboardOrigin.y {
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.frame.origin.y -= keyboardSize.height
-            })
+        delegate?.adjustScrollInset(with: keyboardSize.height)
+
+        // if view.frame.origin.y == 0,
+        if positionYForChecking > keyboardOrigin.y {
+            // UIView.animate(withDuration: 0.5, animations: {
+                self.delegate?.adjustScrollOffset(with: keyboardSize.height)
+            // })
         }
     }
 
     @objc
     private func keyboardWillHide(notification: Notification) {
-        if view.frame.origin.y != 0 {
-            view.frame.origin.y = 0
-        }
+        // if view.frame.origin.y != 0 {
+        delegate?.adjustScrollInset(with: 0)
     }
+
+//    @objc private func executeCustomNotification() {
+//        let abc = 10
+//    }
 }
 
 import SwiftUI

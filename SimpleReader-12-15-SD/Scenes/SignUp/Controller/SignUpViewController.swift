@@ -10,12 +10,6 @@ class SignUpViewController: UIViewController {
     weak var coordinator: CoordinatorProtocol?
     private var signUpView: UIView?
 
-    // MARK: - Deinit
-    deinit {
-        // Remove notification observers
-        NotificationCenter.default.removeObserver(self)
-    }
-
     // MARK: - Lifecycle
     override func loadView() {
         let rootView = SignUpView(frame: .zero)
@@ -25,9 +19,8 @@ class SignUpViewController: UIViewController {
         view = signUpView
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         // Setup notification observers
         NotificationCenter.default.addObserver(
             self,
@@ -39,6 +32,23 @@ class SignUpViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Remove notification observers
+
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.removeObserver(
+            self,
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
@@ -81,4 +91,9 @@ extension SignUpViewController: SignUpViewDelegate {
     func goToLogin() {
         coordinator?.goToLogin()
     }
+}
+
+// MARK: - Custom Notifications
+extension Notification.Name {
+    static let myCustomErrorNotification = Notification.Name("ErrorTestNotification")
 }
