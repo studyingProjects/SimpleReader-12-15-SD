@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol LoginViewDelegate: AnyObject {
+    func loginPressed()
+}
+
 // class TestNotification {
 //
 //    init() {
@@ -37,6 +41,8 @@ import UIKit
 
 class LoginView: UIView {
     // var testObject: TestNotification? = TestNotification()
+    weak var delegate: LoginViewDelegate?
+
     // MARK: - View Model Properties
     private var arrayOfTextFields = [UITextField]()
 
@@ -124,12 +130,6 @@ class LoginView: UIView {
             textField.tag = index
         }
 
-        // Setup subviews
-        addSubviews(scrollView)
-        scrollView.addSubviews(scrollContentView)
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.delaysContentTouches = false
-
         scrollContentView.addSubviews(
             welcomeImageView,
             welcomeLabel,
@@ -147,12 +147,25 @@ class LoginView: UIView {
     private func setupSubviews() {
         emailTextField.delegate = self
         passwordTextField.delegate = self
+
+        // Setup subviews
+        addSubviews(scrollView)
+        scrollView.addSubviews(scrollContentView)
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.delaysContentTouches = false
+
+        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
     }
 
     // MARK: - Action methods
     @objc
     private func viewWasTaped() {
         endEditing(true)
+    }
+
+    @objc
+    private func loginPressed(_ sender: UIButton) {
+        delegate?.loginPressed()
     }
 }
 

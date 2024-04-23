@@ -12,6 +12,7 @@ protocol CoordinatorProtocol: AnyObject {
 
     func start()
     func goToLogin()
+    func goToReader()
 }
 
 class MainCoordinator: CoordinatorProtocol {
@@ -30,6 +31,12 @@ class MainCoordinator: CoordinatorProtocol {
 
     func goToLogin() {
         let viewController = LoginViewController()
+        viewController.coordinator = self
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func goToReader() {
+        let viewController = ReaderViewController()
         viewController.coordinator = self
         navigationController.pushViewController(viewController, animated: true)
     }

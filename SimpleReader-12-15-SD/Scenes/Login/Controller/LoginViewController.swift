@@ -17,14 +17,15 @@ class LoginViewController: UIViewController {
     weak var coordinator: CoordinatorProtocol?
     weak var delegate: LoginViewControllerDelegate?
 
-    private var loginView: UIView?
+    private var loginView: LoginView?
 
-    // MARK: - Lyfecycle
+    // MARK: - Lifecycle
     override func loadView() {
         loginView = LoginView()
         view = loginView
 
-        delegate = loginView as? LoginViewControllerDelegate
+        delegate = loginView
+        loginView?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -108,12 +109,9 @@ private extension LoginViewController {
 //    }
 }
 
-import SwiftUI
-struct ViewControllerProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            // change to your vc
-            LoginViewController().preview()
-        }
+// MARK: - LoginViewDelegate
+extension LoginViewController: LoginViewDelegate {
+    func loginPressed() {
+        coordinator?.goToReader()
     }
 }
