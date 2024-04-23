@@ -23,4 +23,34 @@ extension UIButton {
         self.backgroundColor = backGroundColor
         self.layer.cornerRadius = cornerRadius
     }
+
+    static func getDefaultFilledButton(
+        title: String,
+        isDefaultImageConfig: Bool = false,
+        action: UIAction?
+    ) -> UIButton {
+        var config = UIButton.Configuration.filled()
+        config.attributedTitle = AttributedString(
+            title,
+            attributes: AttributeContainer([NSAttributedString.Key.font: UIFont.appLargeBold])
+        )
+        config.baseBackgroundColor = .greenButton
+        config.baseForegroundColor = .white
+        config.cornerStyle = .large
+        config.buttonSize = .large
+
+        if isDefaultImageConfig {
+            config.imagePlacement = .trailing
+            config.contentInsets = NSDirectionalEdgeInsets(
+                top: Sizes.Small.padding,
+                leading: Sizes.Small.padding,
+                bottom: Sizes.Small.padding,
+                trailing: Sizes.Small.padding
+            )
+            config.imagePadding = Sizes.Small.padding
+            config.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(scale: .large)
+        }
+
+        return UIButton(configuration: config, primaryAction: action)
+    }
 }

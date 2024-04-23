@@ -11,6 +11,12 @@ protocol ButtonConfigurationProtocol {
 }
 
 class ButtonConfigurationView: UIView, ButtonConfigurationProtocol {
+    // MARK: - View Model Properties
+    private var timeString: String? {
+        didSet {
+            startButton.setNeedsUpdateConfiguration()
+        }
+    }
     // MARK: - View Properties
     private lazy var stopWatchLabel = UILabel(
         text: "Stopwatch is ready to start",
@@ -28,28 +34,49 @@ class ButtonConfigurationView: UIView, ButtonConfigurationProtocol {
 
         return stackView
     }()
-
+    // MARK: - Buttons
     private lazy var startButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Start", for: .normal)
-        button.titleLabel?.font = .appMediumBold
-        button.backgroundColor = .greenButton
-        button.layer.cornerRadius = Sizes.Medium.cornerRadius
-        button.translatesAutoresizingMaskIntoConstraints = false
+        let button = UIButton.getDefaultFilledButton(
+            title: "Start",
+            isDefaultImageConfig: true,
+            action: nil
+        )
+
+        button.configurationUpdateHandler = { [unowned self] button in
+            var config = button.configuration
+            let isHighlighted = button.isHighlighted
+
+            if isHighlighted {
+                config?.image = UIImage(systemName: "pause.fill")
+                config?.title = "Pause"
+                config?.subtitle = timeString
+                config?.titlePadding = Sizes.Small.padding
+                config?.showsActivityIndicator = true
+            } else {
+                config?.image = UIImage(systemName: "play.fill")
+                config?.title = "Play"
+                config?.subtitle = nil
+                config?.titlePadding = 0
+                config?.showsActivityIndicator = false
+            }
+
+            let title = config?.title ?? ""
+            config?.attributedTitle = AttributedString(
+                title,
+                attributes: AttributeContainer([NSAttributedString.Key.font: UIFont.appLargeBold])
+            )
+
+            button.configuration = config
+        }
 
         return button
     }()
 
-    private lazy var stopButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Stop", for: .normal)
-        button.titleLabel?.font = .appMediumBold
-        button.backgroundColor = .greenButton
-        button.layer.cornerRadius = Sizes.Medium.cornerRadius
-        button.translatesAutoresizingMaskIntoConstraints = false
-
-        return button
-    }()
+    private lazy var stopButton = UIButton.getDefaultFilledButton(
+        title: "Stop",
+        isDefaultImageConfig: true,
+        action: nil
+    )
 
     // MARK: - Init
     override init(frame: CGRect) {
