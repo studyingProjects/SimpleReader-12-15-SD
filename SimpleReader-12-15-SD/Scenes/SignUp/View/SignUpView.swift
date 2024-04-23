@@ -9,6 +9,7 @@ import UIKit
 
 protocol SignUpViewDelegate: AnyObject {
     func goToLogin()
+    func goToButtonConfiguration()
 }
 
 class SignUpView: UIView {
@@ -154,6 +155,7 @@ class SignUpView: UIView {
         passwordTextField.delegate = self
 
         loginButton.addTarget(self, action: #selector(goToLogin), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(goToButtonConfiguration), for: .touchUpInside)
     }
 
     // MARK: - Action methods
@@ -165,6 +167,11 @@ class SignUpView: UIView {
     @objc
     private func goToLogin() {
         delegate?.goToLogin()
+    }
+
+    @objc
+    private func goToButtonConfiguration() {
+        delegate?.goToButtonConfiguration()
     }
 }
 // MARK: - UITextFieldDelegate

@@ -17,13 +17,3 @@ class ReaderViewController: UIViewController {
         view = readerView
     }
 }
-
-import SwiftUI
-struct ViewControllerProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            // change to your ViewController
-            ReaderViewController().preview()
-        }
-    }
-}

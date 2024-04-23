@@ -88,8 +88,13 @@ private extension SignUpViewController {
 
 // MARK: - SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate {
+
     func goToLogin() {
         coordinator?.goToLogin()
+    }
+
+    func goToButtonConfiguration() {
+        coordinator?.goToButtonConfiguration()
     }
 }
 

@@ -13,6 +13,7 @@ protocol CoordinatorProtocol: AnyObject {
     func start()
     func goToLogin()
     func goToReader()
+    func goToButtonConfiguration()
 }
 
 class MainCoordinator: CoordinatorProtocol {
@@ -37,6 +38,12 @@ class MainCoordinator: CoordinatorProtocol {
 
     func goToReader() {
         let viewController = ReaderViewController()
+        viewController.coordinator = self
+        navigationController.pushViewController(viewController, animated: true)
+    }
+
+    func goToButtonConfiguration() {
+        let viewController = ButtonConfigurationViewController()
         viewController.coordinator = self
         navigationController.pushViewController(viewController, animated: true)
     }
