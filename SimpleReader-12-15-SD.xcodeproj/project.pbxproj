@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C083B1B2BD905690002E876 /* Stopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C083B1A2BD905690002E876 /* Stopwatch.swift */; };
+		6C21B82C2BD7DBC900527081 /* ButtonConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C21B82B2BD7DBC900527081 /* ButtonConfigurationViewController.swift */; };
+		6C21B82E2BD7DBDB00527081 /* ButtonConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C21B82D2BD7DBDB00527081 /* ButtonConfigurationView.swift */; };
 		6C47695E2BD28F40000FF3E8 /* UILabel+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47695D2BD28F40000FF3E8 /* UILabel+App.swift */; };
 		6C4769602BD2977D000FF3E8 /* UIBorderedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C47695F2BD2977D000FF3E8 /* UIBorderedTextField.swift */; };
 		6C4769632BD2C708000FF3E8 /* UIButton+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4769622BD2C708000FF3E8 /* UIButton+App.swift */; };
@@ -31,6 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6C083B1A2BD905690002E876 /* Stopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stopwatch.swift; sourceTree = "<group>"; };
+		6C21B82B2BD7DBC900527081 /* ButtonConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigurationViewController.swift; sourceTree = "<group>"; };
+		6C21B82D2BD7DBDB00527081 /* ButtonConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigurationView.swift; sourceTree = "<group>"; };
 		6C47695D2BD28F40000FF3E8 /* UILabel+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+App.swift"; sourceTree = "<group>"; };
 		6C47695F2BD2977D000FF3E8 /* UIBorderedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBorderedTextField.swift; sourceTree = "<group>"; };
 		6C4769622BD2C708000FF3E8 /* UIButton+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+App.swift"; sourceTree = "<group>"; };
@@ -67,6 +73,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C21B8272BD7DB7700527081 /* ButtonConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				6C21B82A2BD7DBB200527081 /* Model */,
+				6C21B8292BD7DBAD00527081 /* View */,
+				6C21B8282BD7DBA700527081 /* Controller */,
+			);
+			path = ButtonConfiguration;
+			sourceTree = "<group>";
+		};
+		6C21B8282BD7DBA700527081 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				6C21B82B2BD7DBC900527081 /* ButtonConfigurationViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		6C21B8292BD7DBAD00527081 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6C21B82D2BD7DBDB00527081 /* ButtonConfigurationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6C21B82A2BD7DBB200527081 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6C083B1A2BD905690002E876 /* Stopwatch.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		6C7271D32BD11B9C00388B6E = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +185,7 @@
 				6C7271FC2BD11D3E00388B6E /* SignUp */,
 				6C7271FB2BD11D3A00388B6E /* Login */,
 				6CC416B92BD6D77E0031EBBA /* Reader */,
+				6C21B8272BD7DB7700527081 /* ButtonConfiguration */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -357,6 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C21B82C2BD7DBC900527081 /* ButtonConfigurationViewController.swift in Sources */,
 				6C4769652BD2D6A3000FF3E8 /* LoginViewController.swift in Sources */,
 				6CC416C02BD6D8480031EBBA /* ReaderView.swift in Sources */,
 				6C72720D2BD1235600388B6E /* SignUpViewController.swift in Sources */,
@@ -367,6 +409,7 @@
 				6C7271E22BD11B9C00388B6E /* SceneDelegate.swift in Sources */,
 				6C72720F2BD174A200388B6E /* UIView+App.swift in Sources */,
 				6C72721A2BD1951900388B6E /* SignUpView.swift in Sources */,
+				6C21B82E2BD7DBDB00527081 /* ButtonConfigurationView.swift in Sources */,
 				6C7272112BD1752F00388B6E /* UIColor+App.swift in Sources */,
 				6C7272082BD1217D00388B6E /* MainCoordinator.swift in Sources */,
 				6C47695E2BD28F40000FF3E8 /* UILabel+App.swift in Sources */,
@@ -374,6 +417,7 @@
 				6C4769602BD2977D000FF3E8 /* UIBorderedTextField.swift in Sources */,
 				6C4EA0EB2BD3C09100286564 /* UIPasswordTextField.swift in Sources */,
 				6C7271FA2BD11D1500388B6E /* UIViewController+App.swift in Sources */,
+				6C083B1B2BD905690002E876 /* Stopwatch.swift in Sources */,
 				6CC416BE2BD6D7D30031EBBA /* ReaderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
