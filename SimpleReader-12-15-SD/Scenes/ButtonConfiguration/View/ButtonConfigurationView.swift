@@ -39,35 +39,18 @@ class ButtonConfigurationView: UIView, ButtonConfigurationProtocol {
         let button = UIButton.getDefaultFilledButton(
             title: "Start",
             isDefaultImageConfig: true,
-            action: nil
+            action: UIAction(handler: { action in
+                let button = action.sender as? UIButton
+
+                guard let isSelected = button?.isSelected else {
+                    return
+                }
+
+                button?.isSelected = !isSelected
+            })
         )
 
-        button.configurationUpdateHandler = { [unowned self] button in
-            var config = button.configuration
-            let isHighlighted = button.isHighlighted
-
-            if isHighlighted {
-                config?.image = UIImage(systemName: "pause.fill")
-                config?.title = "Pause"
-                config?.subtitle = timeString
-                config?.titlePadding = Sizes.Small.padding
-                config?.showsActivityIndicator = true
-            } else {
-                config?.image = UIImage(systemName: "play.fill")
-                config?.title = "Play"
-                config?.subtitle = nil
-                config?.titlePadding = 0
-                config?.showsActivityIndicator = false
-            }
-
-            let title = config?.title ?? ""
-            config?.attributedTitle = AttributedString(
-                title,
-                attributes: AttributeContainer([NSAttributedString.Key.font: UIFont.appLargeBold])
-            )
-
-            button.configuration = config
-        }
+        button.configurationUpdateHandler = getStartButtonConfigUpdateHandler(button)
 
         return button
     }()
@@ -99,9 +82,34 @@ class ButtonConfigurationView: UIView, ButtonConfigurationProtocol {
         setupSubViews()
     }
 
+    // MARK: - Setup subviews
     private func setupSubViews() {
         buttonsStackView.addArrangedSubview(startButton)
         buttonsStackView.addArrangedSubview(stopButton)
+    }
+
+    private func getStartButtonConfigUpdateHandler(_ button: UIButton)
+    -> (_ button: UIButton) -> Void {
+        return { [unowned self] button in
+            var config = button.configuration
+            let isSelected = button.isSelected
+
+            if isSelected {
+                config?.image = UIImage(systemName: "pause.fill")
+                config?.title = "Pause"
+                config?.subtitle = timeString
+                config?.titlePadding = Sizes.Small.padding
+                config?.showsActivityIndicator = true
+            } else {
+                config?.image = UIImage(systemName: "play.fill")
+                config?.title = "Play"
+                config?.subtitle = nil
+                config?.titlePadding = 0
+                config?.showsActivityIndicator = false
+            }
+
+            button.configuration = config
+        }
     }
 }
 
