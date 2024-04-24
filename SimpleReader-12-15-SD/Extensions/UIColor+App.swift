@@ -8,7 +8,31 @@
 import UIKit
 
 extension UIColor {
-    static let appBackground = UIColor.systemGray5
-    static let appLabel = UIColor.black
-    static let appButton = UIColor(red: 0.39, green: 0.78, blue: 0.58, alpha: 1)
+    convenience init(red: Int, green: Int, blue: Int) {
+        let redValue = CGFloat(red) / 255.0
+        let greenValue = CGFloat(green) / 255.0
+        let blueValue = CGFloat(blue) / 255.0
+        self.init(red: redValue, green: greenValue, blue: blueValue, alpha: 1.0)
+    }
+}
+
+extension UIColor {
+    // MARK: - Background Colors
+    static var primarySystemBackground: UIColor {
+        UIColor.systemBackground
+    }
+    // MARK: - Border Colors {
+    static var selectedBorder: UIColor {
+        UIColor.tintColor
+    }
+    static var unselectedBorder: UIColor {
+        UIColor.systemGray3
+    }
+    // MARK: - Button Colors
+    static var tintButton: UIColor {
+        UIColor.tintColor
+    }
+    static var greenButton: UIColor {
+        UIColor(red: 99, green: 198, blue: 148)
+    }
 }

@@ -1,22 +1,31 @@
 //
-//  SignUpViewController.swift
+//  LoginViewController.swift
 //  SimpleReader-12-15-SD
 //
-//  Created by Andrei Shpartou on 18/04/2024.
+//  Created by Andrei Shpartou on 19/04/2024.
 //
+
 import UIKit
 
-class SignUpViewController: UIViewController {
+protocol LoginViewControllerDelegate: AnyObject {
+    func adjustScrollInset(with height: CGFloat)
+    func adjustScrollOffset(with height: CGFloat)
+    // func getCurrentOffset() -> CGFloat
+}
+
+class LoginViewController: UIViewController {
     weak var coordinator: CoordinatorProtocol?
-    private var signUpView: UIView?
+    weak var delegate: LoginViewControllerDelegate?
+
+    private var loginView: LoginView?
 
     // MARK: - Lifecycle
     override func loadView() {
-        let rootView = SignUpView(frame: .zero)
-        rootView.delegate = self
+        loginView = LoginView()
+        view = loginView
 
-        signUpView = rootView
-        view = signUpView
+        delegate = loginView
+        loginView?.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -35,11 +44,17 @@ class SignUpViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+//        // custom notification
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(executeCustomNotification),
+//            name: .myCustomErrorNotification,
+//            object: loginView
+//        )
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // Remove notification observers
 
         NotificationCenter.default.removeObserver(
             self,
@@ -56,7 +71,8 @@ class SignUpViewController: UIViewController {
 }
 
 // MARK: - Action methods
-private extension SignUpViewController {
+private extension LoginViewController {
+
     @objc
     private func keyboardWillShow(notification: Notification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -66,39 +82,36 @@ private extension SignUpViewController {
         guard let textField = view.selectedTextField else {
             return
         }
-        let positionYForChecking = textField.frame.origin.y + textField.frame.height + Sizes.Small.height
+        // Convert from Subviews coordinates to View coordinates
+        let textFieldOrigin = view.convert(textField.frame.origin, from: textField.superview)
+        let positionYForChecking = textFieldOrigin.y + textField.frame.height + Sizes.Small.padding
         // Convert from UIWindows coordinates to View coordinates
         let keyboardOrigin = view.convert(keyboardSize.origin, from: view.window)
 
-        if view.frame.origin.y == 0,
-           positionYForChecking > keyboardOrigin.y {
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.frame.origin.y -= keyboardSize.height
-            })
+        delegate?.adjustScrollInset(with: keyboardSize.height)
+
+        // if view.frame.origin.y == 0,
+        if positionYForChecking > keyboardOrigin.y {
+            // UIView.animate(withDuration: 0.5, animations: {
+                self.delegate?.adjustScrollOffset(with: keyboardSize.height)
+            // })
         }
     }
 
     @objc
     private func keyboardWillHide(notification: Notification) {
-        if view.frame.origin.y != 0 {
-            view.frame.origin.y = 0
-        }
+        // if view.frame.origin.y != 0 {
+        delegate?.adjustScrollInset(with: 0)
     }
+
+//    @objc private func executeCustomNotification() {
+//        let abc = 10
+//    }
 }
 
-// MARK: - SignUpViewDelegate
-extension SignUpViewController: SignUpViewDelegate {
-
-    func goToLogin() {
-        coordinator?.goToLogin()
+// MARK: - LoginViewDelegate
+extension LoginViewController: LoginViewDelegate {
+    func loginPressed() {
+        coordinator?.goToReader()
     }
-
-    func goToButtonConfiguration() {
-        coordinator?.goToButtonConfiguration()
-    }
-}
-
-// MARK: - Custom Notifications
-extension Notification.Name {
-    static let myCustomErrorNotification = Notification.Name("ErrorTestNotification")
 }

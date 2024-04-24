@@ -38,7 +38,7 @@ enum Sizes {
     enum Large {
         static let padding: CGFloat = 32
         static let width: CGFloat = 200
-        static let height: CGFloat = 140
+        static let height: CGFloat = 180
         static let cornerRadius: CGFloat = 30
         static let borderWidth: CGFloat = 5
         static let multiplayer: CGFloat = 0.75
@@ -47,7 +47,7 @@ enum Sizes {
     enum XLarge {
         static let padding: CGFloat = 64
         static let width: CGFloat = 400
-        static let height: CGFloat = 280
+        static let height: CGFloat = 300
         static let cornerRadius: CGFloat = 40
         static let borderWidth: CGFloat = 6
         static let multiplayer: CGFloat = 0.9
